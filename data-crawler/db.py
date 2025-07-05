@@ -13,6 +13,7 @@ def connect_db():
         cur = conn.cursor()
         cur.execute("SELECT VERSION()")
         version = cur.fetchone()[0]
+        
         print(f"✅ MariaDB 연결 성공! 버전: {version}")
         return conn
     except mariadb.Error as e:
