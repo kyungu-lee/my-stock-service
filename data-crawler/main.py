@@ -22,7 +22,7 @@ if __name__ == "__main__":
     # 종목 정보가 제대로 조회가 된 경우에만 db update
     if stocks is not None:
         conn = db.connect_db()
-        db.update_stocks(conn, stocks["stock_list"])
+        db.update_stocks_info(conn, stocks["stock_list"])
         
     
     

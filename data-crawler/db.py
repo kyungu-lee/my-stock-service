@@ -23,13 +23,7 @@ def connect_db():
         raise
     
     
-def update_stocks(conn, stock_list):
-    """
-    stocks 테이블에 들어온 종목 리스트를
-    - 없으면 INSERT
-    - 있으면 name/market/listing_date/par_value를 UPDATE
-    처리합니다.
-    """
+def update_stocks_info(conn, stock_list):
     sql = """
     INSERT INTO stocks (ticker, name, market, listing_date, par_value)
     VALUES (%s, %s, %s, %s, %s)
@@ -41,17 +35,16 @@ def update_stocks(conn, stock_list):
     """
     cur = conn.cursor()
     for stock in stock_list:
-        # 액면가에 숫자가 아니라 문자열이 들어가는 경우가 있네
-        parval = stock["PARVAL"]
-        if parval == '무액면':
-            parval = None
-        
+        # 액면가에 숫자가 아니라 문자열이 들어가는 경우가 있어서 Null 초기화좀 해주자
+        if not isinstance(stock["PARVAL"],(int, float)):
+            stock["PARVAL"] = None
+            
         cur.execute(sql, (
             stock["ISU_SRT_CD"],          # ticker
             stock["ISU_NM"],              # name
             stock["MKT_TP_NM"],           # market
             dt.strptime(stock["LIST_DD"], "%Y%m%d").date(),
-            parval
+            stock["PARVAL"]
         ))
     conn.commit()
     
@@ -70,18 +63,4 @@ def get_existing_tickers(conn):
     
     
 
-        
-# 번호	항목명	출력명	Data Type
-# 1	표준코드	ISU_CD	string()
-# 2	단축코드	ISU_SRT_CD	string()
-# 3	한글 종목명	ISU_NM	string()
-# 4	한글 종목약명	ISU_ABBRV	string()
-# 5	영문 종목명	ISU_ENG_NM	string()
-# 6	상장일	LIST_DD	string()
-# 7	시장구분	MKT_TP_NM	string()
-# 8	증권구분	SECUGRP_NM	string()
-# 9	소속부	SECT_TP_NM	string()
-# 10	주식종류	KIND_STKCERT_TP_NM	string()
-# 11	액면가	PARVAL	string()
-# 12	상장주식수	LIST_SHRS	string()
         
