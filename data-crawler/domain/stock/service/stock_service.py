@@ -15,6 +15,11 @@ class StockService:
         fetched_codes = set(stock["code"] for stock in fetched_stocks)
         existing_codes = set(self.repository.get_all_stock_codes())
         
+        new_codes = fetched_codes - existing_codes
+        #todo: db 에 신규로 insert 해야함    
+    
+    
+    
         
 
 
