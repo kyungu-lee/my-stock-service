@@ -1,5 +1,5 @@
 import json
-import db
+import infra.db as db
 from fetch.listed_stocks import fetch_listed_stocks
 from datetime import date
 
@@ -23,9 +23,4 @@ if __name__ == "__main__":
     if stocks is not None:
         conn = db.connect_db()
         db.update_stocks_info(conn, stocks["stock_list"])
-        
-    
-    
-    
-
         

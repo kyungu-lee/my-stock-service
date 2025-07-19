@@ -12,11 +12,19 @@ class StockService:
             return
         
         fetched_stocks = data["stock_list"]
-        fetched_codes = set(stock["code"] for stock in fetched_stocks)
+        fetched_codes = set(stock["ISU_SRT_CD"] for stock in fetched_stocks)
         existing_codes = set(self.repository.get_all_stock_codes())
         
-        new_codes = fetched_codes - existing_codes
         #todo: db 에 신규로 insert 해야함    
+        new_codes = fetched_codes - existing_codes
+        new_stocks = [stock for stock in fetched_stocks if stock["ISU_SRT_CD"] in new_codes]
+        StockRepository.insert_new_stocks(new_stocks);
+        
+        
+        #todo: db 에 상장폐지 컬럼 업데이트 해야함
+        delisted_codes = existing_codes - fetched_codes
+        delisted_stocks = [stock for stock in fetched_stocks if stock["ISU_SRT_CD"] in delisted_codes]
+        
     
     
     
