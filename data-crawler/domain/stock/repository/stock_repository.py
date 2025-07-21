@@ -46,7 +46,7 @@ class StockRepository:
         conn = connect_db()
         cur = conn.cursor()
         
-        #개선점: 일단은 상폐종목 개수만큼 쿼리를 날리는걸로, 자주 발생하는 로직은 아니라 문제 없을 듯
+        #todo: 일단은 상폐종목 개수만큼 쿼리를 날리는걸로, 자주 발생하는 로직은 아니라 문제 없을 듯
         sql = '''
             UPDATE stocks
             SET is_delisted = 1
@@ -57,6 +57,8 @@ class StockRepository:
         conn.commit()
         
     
+    
+    # 종목 정보 조회시, 액면가(parval) 에 '무액면' 같은 문자열이 오는 경우 예외 처리를 위해 숫자 자료형인지 체크
     def _is_numeric(self, value) -> bool:
         try:
             float(value)

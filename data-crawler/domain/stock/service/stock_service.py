@@ -5,11 +5,13 @@ class StockService:
     def __init__(self):
         self.stockRepository = StockRepository()
 
+    # 상장 종목 정보 API 조회 및 DB 업데이트
     def sync_kospi_stocks(self, base_date: str):
+        # KRX 에 API 요청
         data = fetch_kospi_stock_list(base_date)
         if not data or "stock_list" not in data:
             print("종목 데이터가 없습니다.")
-            return
+            return None
         
         fetched_stocks = data["stock_list"]
         fetched_codes = set(stock["ISU_SRT_CD"] for stock in fetched_stocks)
@@ -25,4 +27,9 @@ class StockService:
         delisted_codes = existing_codes - fetched_codes
         self.stockRepository.update_is_delisted(delisted_codes)
         print(f"Marked {len(delisted_codes)} stocks as delisted: {sorted(delisted_codes)}")
-        print()
+        
+        return data
+        
+    # 일별 시세 API 조회 및 DB 업데이트
+    def sync_kospi_daily_prices(base_date):
+        #todo
