@@ -32,4 +32,5 @@ def get_db_config():
 KRX_API_KEY = os.getenv("KRX_API_KEY")
 
 # KRX API 요청 url
-LISTED_STOCKS_URL = "http://data-dbg.krx.co.kr/svc/apis/sto/stk_isu_base_info"
+LISTED_STOCKS_API_URL = "http://data-dbg.krx.co.kr/svc/apis/sto/stk_isu_base_info"
+KOSPI_DAILY_PRICE_API_URL = "http://data-dbg.krx.co.kr/svc/apis/sto/stk_bydd_trd"
