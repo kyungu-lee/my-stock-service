@@ -1,7 +1,6 @@
 from config.config import LISTED_STOCKS_API_URL
 from config.config import KRX_API_KEY
 from .common import check_data_exists
-
 import requests
 
 def fetch_kospi_stock_list(base_date):
